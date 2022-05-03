@@ -13,14 +13,14 @@ npm run start
 
 ### 1. Back-end
 
-create .env file and past this with your mangoDB password included:
-```
-DB_URL = "your-url-here"
-```
-
 install all the dependencies the back-end needs and then launch the server.
 ```
 cd backend
 npm install
+```
+
+create .env file and past this with your mangoDB, password included:
+```
+DB_URL = "your-url-here"
 ```
 

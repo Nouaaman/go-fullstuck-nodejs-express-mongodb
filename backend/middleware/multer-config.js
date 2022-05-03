@@ -17,7 +17,5 @@ const storage = multer.diskStorage({
   }
 });
 
-const fefe= multer.diskStorage({
-    
-})
+
 module.exports = multer({storage: storage}).single('image');

@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt')
+const User = require('../models/user')
 
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10).then(
@@ -9,12 +11,15 @@ exports.signup = (req, res, next) => {
             });
             user.save().then(
                 () => {
+                    console.log('User added successfully!')
                     res.status(201).json({
                         message: 'User added successfully!'
                     });
+                    
                 }
             ).catch(
                 (error) => {
+                    console.error(error)
                     res.status(500).json({
                         error: error
                     });
@@ -27,10 +32,11 @@ exports.signup = (req, res, next) => {
 
 exports.login = (req, res, next) => {
     User.findOne({
-        email: req.body.email
+       email:req.body.email
     }).then(
         (user) => {
-            if (!user) {
+            if (!user) { 
+                console.error('User not found!');
                 return res.status(401).json({
                     error: new Error('User not found!')
                 });
@@ -38,6 +44,7 @@ exports.login = (req, res, next) => {
             bcrypt.compare(req.body.password, user.password).then(
                 (valid) => {
                     if (!valid) {
+                        console.log('incorrect password')
                         return res.status(401).json({
                             error: new Error('Incorrect password!')
                         });
@@ -55,6 +62,7 @@ exports.login = (req, res, next) => {
                 }
             ).catch(
                 (error) => {
+                    console.error(error)
                     res.status(500).json({
                         error: error
                     });
@@ -63,6 +71,7 @@ exports.login = (req, res, next) => {
         }
     ).catch(
         (error) => {
+            console.error(error)
             res.status(500).json({
                 error: error
             });
